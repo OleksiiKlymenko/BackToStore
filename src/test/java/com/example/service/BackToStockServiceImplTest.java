@@ -3,13 +3,10 @@ package com.example.service;
 import com.example.ProductCategory;
 import com.example.model.Product;
 import com.example.model.User;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BackToStockServiceImplTest {
     User John = new User("John", true, 16);
