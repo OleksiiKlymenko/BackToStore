@@ -2,13 +2,13 @@ package com.example;
 
 import com.example.model.Product;
 import com.example.model.User;
-import com.example.priority.CalculatePriority;
-import com.example.priority.CalculatePriorityImpl;
+import com.example.priority.PriorityCalculator;
+import com.example.priority.PriorityCalculatorImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CalculatePriorityTest {
+class PriorityCalculatorTest {
     private static final String JOHN_NAME = "John";
     private static final String BOB_NAME = "Bob";
     private static final boolean PREMIUM = true;
@@ -17,38 +17,38 @@ class CalculatePriorityTest {
     private static final int BOB_AGE = 70;
     private static final String HIGH_PRIORITY = "HIGH";
     private static final String MEDIUM_PRIORITY = "MEDIUM";
-    private User validUser;
-    private User oldUser;
-    private Product bookPoduct;
-    private Product medicalPoduct;
-    private CalculatePriority calculatePriority;
+    private User premiumUser;
+    private User notPremiumUser;
+    private Product bookProduct;
+    private Product medicalProduct;
+    private PriorityCalculator priorityCalculator;
 
     @BeforeEach
     void setUp() {
-        validUser = new User(JOHN_NAME, PREMIUM, JOHN_AGE);
-        oldUser = new User(BOB_NAME, NOT_PREMIUM, BOB_AGE);
-        bookPoduct = new Product("1", ProductCategory.BOOKS);
-        medicalPoduct = new Product("2", ProductCategory.MEDICAL);
-        calculatePriority = new CalculatePriorityImpl();
+        premiumUser = new User(JOHN_NAME, PREMIUM, JOHN_AGE);
+        notPremiumUser = new User(BOB_NAME, NOT_PREMIUM, BOB_AGE);
+        bookProduct = new Product("1", ProductCategory.BOOKS);
+        medicalProduct = new Product("2", ProductCategory.MEDICAL);
+        priorityCalculator = new PriorityCalculatorImpl();
     }
 
     @Test
     void calculatePriority_high_ok() {
-        Priority priority = calculatePriority.calculatePriority(validUser, bookPoduct);
+        Priority priority = priorityCalculator.calculatePriority(premiumUser, bookProduct);
         String userPriority = priority.name();
         Assertions.assertEquals(HIGH_PRIORITY, userPriority);
     }
 
     @Test
     void calculatePriority_medium_ok() {
-        Priority priority = calculatePriority.calculatePriority(oldUser, bookPoduct);
+        Priority priority = priorityCalculator.calculatePriority(notPremiumUser, bookProduct);
         String userPriority = priority.name();
         Assertions.assertEquals(MEDIUM_PRIORITY, userPriority);
     }
 
     @Test
     void calculatePriority_medical_ok() {
-        Priority priority = calculatePriority.calculatePriority(oldUser, medicalPoduct);
+        Priority priority = priorityCalculator.calculatePriority(notPremiumUser, medicalProduct);
         String userPriority = priority.name();
         Assertions.assertEquals(HIGH_PRIORITY, userPriority);
     }
@@ -56,6 +56,6 @@ class CalculatePriorityTest {
     @Test
     void calculatePriority_notOk() {
         Assertions.assertThrows(NullPointerException.class,
-                () -> calculatePriority.calculatePriority(null, bookPoduct));
+                () -> priorityCalculator.calculatePriority(null, bookProduct));
     }
 }

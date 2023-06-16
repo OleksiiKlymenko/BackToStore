@@ -1,6 +1,7 @@
 package com.example.service;
 
-import com.example.priority.CalculatePriorityImpl;
+import com.example.priority.PriorityCalculator;
+import com.example.priority.PriorityCalculatorImpl;
 import com.example.model.Product;
 import com.example.model.User;
 import java.util.ArrayList;
@@ -12,11 +13,11 @@ import java.util.PriorityQueue;
 
 public class BackToStockServiceImpl implements BackToStockService {
     private Map<Product, List<User>> subscriptions;
-    private CalculatePriorityImpl calculatePriority;
+    private PriorityCalculator priorityCalculator;
 
     public BackToStockServiceImpl() {
         this.subscriptions = new HashMap<>();
-        this.calculatePriority = new CalculatePriorityImpl();
+        this.priorityCalculator = new PriorityCalculatorImpl();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class BackToStockServiceImpl implements BackToStockService {
     @Override
     public List<User> notifyUsers(Product product) {
         PriorityQueue<User> priorityQueue = new PriorityQueue<>
-                (Comparator.comparing(user -> calculatePriority.calculatePriority(user, product)));
+                (Comparator.comparing(user -> priorityCalculator.calculatePriority(user, product)));
 
         List<User> subscribedUsers = subscribedUsers(product);
         for (User user : subscribedUsers) {

@@ -5,7 +5,7 @@ import com.example.ProductCategory;
 import com.example.model.Product;
 import com.example.model.User;
 
-public class CalculatePriorityImpl implements CalculatePriority {
+public class PriorityCalculatorImpl implements PriorityCalculator {
     @Override
     public Priority calculatePriority(User user, Product product) {
         if (user == null) {
@@ -15,18 +15,14 @@ public class CalculatePriorityImpl implements CalculatePriority {
             throw new NullPointerException("Product is null");
         }
 
-        boolean premium = user.isPremium();
-        int age = user.getAge();
         ProductCategory productCategory = product.getCategory();
 
-        if (premium) {
+        if (user.isPremium()) {
             return Priority.HIGH;
-        } else if (age >= 70) {
-            if (productCategory == ProductCategory.MEDICAL) {
-                return Priority.HIGH;
-            } else {
-                return Priority.MEDIUM;
-            }
+        }
+        if (user.getAge() >= 70) {
+            return productCategory == ProductCategory.MEDICAL
+                    ? Priority.HIGH : Priority.MEDIUM;
         } else {
             return Priority.FIFO;
         }
