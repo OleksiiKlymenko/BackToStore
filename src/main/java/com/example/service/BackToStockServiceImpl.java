@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exception.InvalidInputException;
 import com.example.priority.PriorityCalculator;
 import com.example.priority.PriorityCalculatorImpl;
 import com.example.model.Product;
@@ -23,10 +24,10 @@ public class BackToStockServiceImpl implements BackToStockService {
     @Override
     public void subscribe(User user, Product product) {
         if (user == null) {
-            throw new NullPointerException("User is null");
+            throw new InvalidInputException("User is null");
         }
         if (product == null) {
-            throw new NullPointerException("Product is null");
+            throw new InvalidInputException("Product is null");
         }
         List<User> subscribedUsers = subscriptions.getOrDefault(product, new ArrayList<>());
         subscribedUsers.add(user);
