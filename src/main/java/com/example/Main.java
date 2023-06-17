@@ -21,17 +21,17 @@ public class Main {
         backToStockService.subscribe(user1, product2);
         backToStockService.subscribe(user2, product2);
 
-        List<User> usersByProduct2 = backToStockService.notifyUsers(product2);
-        for (User user : usersByProduct2) {
-            System.out.println(user.getName());
-        }
-
         backToStockService.subscribe(user2, product1);
         backToStockService.subscribe(user3, product1);
         backToStockService.subscribe(user1, product1);
 
         List<User> usersByProduct1 = backToStockService.notifyUsers(product1);
         for (User user : usersByProduct1) {
+            System.out.println(user.getName());
+        }
+
+        List<User> usersByProduct2 = backToStockService.notifyUsers(product2);
+        for (User user : usersByProduct2) {
             System.out.println(user.getName());
         }
     }

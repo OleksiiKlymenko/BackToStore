@@ -1,11 +1,11 @@
 package com.example.priority;
 
+import static com.example.util.ValidationUtil.validateNotNull;
+
 import com.example.Priority;
 import com.example.ProductCategory;
-import com.example.exception.InvalidInputException;
 import com.example.model.Product;
 import com.example.model.User;
-import static com.example.util.ValidationUtil.validateNotNull;
 
 public class PriorityCalculatorImpl implements PriorityCalculator {
     @Override

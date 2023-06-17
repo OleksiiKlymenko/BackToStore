@@ -1,17 +1,17 @@
 package com.example.service;
 
-import com.example.exception.InvalidInputException;
-import com.example.priority.PriorityCalculator;
-import com.example.priority.PriorityCalculatorImpl;
+import static com.example.util.ValidationUtil.validateNotNull;
+
 import com.example.model.Product;
 import com.example.model.User;
+import com.example.priority.PriorityCalculator;
+import com.example.priority.PriorityCalculatorImpl;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import static com.example.util.ValidationUtil.validateNotNull;
 
 public class BackToStockServiceImpl implements BackToStockService {
     private Map<Product, List<User>> subscriptions;
@@ -37,8 +37,8 @@ public class BackToStockServiceImpl implements BackToStockService {
 
     @Override
     public List<User> notifyUsers(Product product) {
-        PriorityQueue<User> priorityQueue = new PriorityQueue<>
-                (Comparator.comparing(user -> priorityCalculator.calculatePriority(user, product)));
+        PriorityQueue<User> priorityQueue = new PriorityQueue<>(Comparator
+                .comparing(user -> priorityCalculator.calculatePriority(user, product)));
 
         List<User> subscribedUsers = subscribedUsers(product);
         for (User user : subscribedUsers) {

@@ -1,8 +1,5 @@
 package com.example.model;
 
-import com.example.Priority;
-import com.example.ProductCategory;
-
 public class User {
     private String name;
     private boolean premium;
