@@ -1,12 +1,14 @@
 package com.example;
 
+import com.example.exception.InvalidInputException;
 import com.example.model.Product;
 import com.example.model.User;
 import com.example.priority.PriorityCalculator;
 import com.example.priority.PriorityCalculatorImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PriorityCalculatorTest {
     private static final String JOHN_NAME = "John";
@@ -33,29 +35,31 @@ class PriorityCalculatorTest {
     }
 
     @Test
-    void calculatePriority_high_ok() {
+    void calculatePriority_forPremiumUser_ok() {
         Priority priority = priorityCalculator.calculatePriority(premiumUser, bookProduct);
         String userPriority = priority.name();
-        Assertions.assertEquals(HIGH_PRIORITY, userPriority);
+        assertEquals(HIGH_PRIORITY, userPriority);
     }
 
     @Test
-    void calculatePriority_medium_ok() {
+    void calculatePriority_forOldUser_ok() {
         Priority priority = priorityCalculator.calculatePriority(notPremiumUser, bookProduct);
         String userPriority = priority.name();
-        Assertions.assertEquals(MEDIUM_PRIORITY, userPriority);
+        assertEquals(MEDIUM_PRIORITY, userPriority);
     }
 
     @Test
-    void calculatePriority_medical_ok() {
+    void calculatePriority_forO_ok() {
         Priority priority = priorityCalculator.calculatePriority(notPremiumUser, medicalProduct);
         String userPriority = priority.name();
-        Assertions.assertEquals(HIGH_PRIORITY, userPriority);
+        assertEquals(HIGH_PRIORITY, userPriority);
     }
 
     @Test
     void calculatePriority_notOk() {
-        Assertions.assertThrows(NullPointerException.class,
+        InvalidInputException exception = assertThrows(InvalidInputException.class,
                 () -> priorityCalculator.calculatePriority(null, bookProduct));
+        assertEquals("User can not be null" ,exception.getMessage());
+
     }
 }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import static com.example.util.ValidationUtil.validateNotNull;
 
 public class BackToStockServiceImpl implements BackToStockService {
     private Map<Product, List<User>> subscriptions;
@@ -23,12 +24,7 @@ public class BackToStockServiceImpl implements BackToStockService {
 
     @Override
     public void subscribe(User user, Product product) {
-        if (user == null) {
-            throw new InvalidInputException("User is null");
-        }
-        if (product == null) {
-            throw new InvalidInputException("Product is null");
-        }
+        validateNotNull(user, product);
         List<User> subscribedUsers = subscriptions.getOrDefault(product, new ArrayList<>());
         subscribedUsers.add(user);
         subscriptions.put(product, subscribedUsers);

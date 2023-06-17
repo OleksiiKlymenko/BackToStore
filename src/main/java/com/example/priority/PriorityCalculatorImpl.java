@@ -5,17 +5,12 @@ import com.example.ProductCategory;
 import com.example.exception.InvalidInputException;
 import com.example.model.Product;
 import com.example.model.User;
+import static com.example.util.ValidationUtil.validateNotNull;
 
 public class PriorityCalculatorImpl implements PriorityCalculator {
     @Override
     public Priority calculatePriority(User user, Product product) {
-        if (user == null) {
-            throw new InvalidInputException("User is null");
-        }
-        if (product == null) {
-            throw new InvalidInputException("Product is null");
-        }
-
+        validateNotNull(user, product);
         ProductCategory productCategory = product.getCategory();
 
         if (user.isPremium()) {

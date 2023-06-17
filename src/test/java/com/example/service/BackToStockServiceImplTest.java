@@ -1,12 +1,16 @@
 package com.example.service;
 
 import com.example.ProductCategory;
+import com.example.exception.InvalidInputException;
 import com.example.model.Product;
 import com.example.model.User;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BackToStockServiceImplTest {
     User John = new User("John", true, 16);
@@ -28,19 +32,20 @@ class BackToStockServiceImplTest {
         backToStockService.subscribe(Alice, book);
         backToStockService.subscribe(Bob, book);
         List<User> subscribedUsers = backToStockService.subscribedUsers(book);
-        Assertions.assertEquals(subscribedUsers, defaultSubscribedUsers);
+        assertEquals(subscribedUsers, defaultSubscribedUsers);
     }
 
     @Test
-    void subscribe_notOk() {
-        Assertions.assertThrows(NullPointerException.class,
+    void subscribe_nullUser_notOk() {
+        InvalidInputException exception = assertThrows(InvalidInputException.class,
                 () -> backToStockService.subscribe(Bob, null));
+        assertEquals("Product can not be null", exception.getMessage());
     }
 
     @Test
     void subscribedUsers_ok() {
         List<User> subscribedUsers = backToStockService.subscribedUsers(book);
-        Assertions.assertTrue(subscribedUsers.isEmpty());
+        assertTrue(subscribedUsers.isEmpty());
     }
 
     @Test
@@ -49,12 +54,12 @@ class BackToStockServiceImplTest {
         backToStockService.subscribe(Bob, book);
         backToStockService.subscribe(John, book);
         List<User> orderQueueOfUsers = backToStockService.notifyUsers(book);
-        Assertions.assertEquals(orderQueueOfUsers, List.of(John, Bob, Alice));
+        assertEquals(orderQueueOfUsers, List.of(John, Bob, Alice));
     }
 
     @Test
     void notifyUsers_emptyList_ok() {
         List<User> emptyListOfUsers = backToStockService.notifyUsers(notValidProduct);
-        Assertions.assertTrue(emptyListOfUsers.isEmpty());
+        assertTrue(emptyListOfUsers.isEmpty());
     }
 }
